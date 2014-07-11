@@ -1,0 +1,1 @@
+﻿[guid]::NewGuid().Guid | tee guid.txt
