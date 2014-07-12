@@ -17,7 +17,12 @@
         [Parameter(Mandatory=0)]
         [ValidateNotNullOrEmpty()]
         [String]
-        $ModulePath = "$env:ProgramFiles\WindowsPowerShell\Modules"
+        $ModulePath = "$env:ProgramFiles\WindowsPowerShell\Modules",
+
+        [Parameter(Mandatory=0)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $PullModulePath = "$env:ProgramFiles\WindowsPowerShell\DSCService\Modules"
     )
  
     File DownloadDirectory
@@ -47,6 +52,21 @@
         Recurse         = $true
         Type            = "Directory"
         Ensure          = "Present"
+    }
+
+    File DSCPullModuleFolder
+    {
+        SourcePath      = $OutFile
+        DestinationPath = $PullModulePath
+        Type            = "File"
+        Ensure          = "Present"
+    }
+
+    Script ModuleCheckSum
+    {
+        SetScript       = {New-DSCCheckSum (Join-Path $using:PullModulePath (Split-Path $using:OutFile -Leaf))}
+        TestScript      = {Test-Path "$(Join-Path $using:PullModulePath (Split-Path $using:OutFile -Leaf)).checksum"}
+        GetScript       = {@{OutFile = "$((Join-Path $using:PullModulePath (Split-Path $using:OutFile -Leaf)).checksum)"}}
     }
 } 
 

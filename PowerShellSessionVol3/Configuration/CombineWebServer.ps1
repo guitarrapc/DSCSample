@@ -110,6 +110,7 @@ valea $nodename {Invoke-CimMethod -Namespace root/Microsoft/Windows/DesiredState
 
 # Show current Configuration
 Get-DscConfiguration -CimSession $cimSession
+Test-DscConfiguration -CimSession $cimSession
 
 # Show DSC log
 valea $nodename {(Get-xDscOperation -Newest 1).AllEvents}

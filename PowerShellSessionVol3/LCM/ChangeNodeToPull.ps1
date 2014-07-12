@@ -36,7 +36,7 @@ $param = @{
 ChangeNodeToPull @param
 
 # Apply
-Set-DscLocalConfigurationManager -Path $outPath -Verbose 
+Set-DscLocalConfigurationManager -Path $param.outputPath -Verbose 
 
 # Check LCM
 $CimSession = New-CimSession -ComputerName 10.0.2.11
