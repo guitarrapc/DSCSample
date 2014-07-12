@@ -58,10 +58,20 @@ Configuration WebSite
                                     {
                                         Protocol              = "HTTP"
                                         Port                  = 7070 
-                                        HostName              = "Sample"
                                     }
         PhysicalPath         = "C:\inetpub\Sample"
         ApplicationPool      = "Sample"
+    }
+}
+
+configuration Copywwwroot
+{
+    File CopywwwRoot
+    {
+        Ensure          = "Present"
+        DestinationPath = "C:\inetpub\Sample\iisstart.htm"
+        Type            = "File"
+        SourcePath      = "C:\inetpub\wwwroot\iisstart.htm"
     }
 }
 
@@ -74,6 +84,7 @@ Configuration CombineWebServer
         WebAppPool    AppPool {}
         WebSite       WebSite {
             name = "Sample"}
+        Copywwwroot   Copywwwroot {}
     }
 }
 
@@ -110,8 +121,8 @@ valea $nodename {Invoke-CimMethod -Namespace root/Microsoft/Windows/DesiredState
 
 # Show current Configuration
 Get-DscConfiguration -CimSession $cimSession
-Test-DscConfiguration -CimSession $cimSession
 
+# You must copy xDSCDiagnostic to Node Module Path
 # Show DSC log
 valea $nodename {(Get-xDscOperation -Newest 1).AllEvents}
 
