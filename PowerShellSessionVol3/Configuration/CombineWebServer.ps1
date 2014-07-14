@@ -25,9 +25,9 @@ Configuration SiteDirectory
 {
     File DirectoryWebSite
     {
-        Ensure               = "Present"
-        DestinationPath      = "C:\inetpub\Sample"
-        Type                 = "Directory"
+        Ensure          = "Present"
+        DestinationPath = "C:\inetpub\Sample"
+        Type            = "Directory"
     }
 }
 
@@ -36,9 +36,9 @@ Configuration WebAppPool
     Import-DscResource -ModuleName xWebAdministration
     xWebAppPool WebAppPool
     {
-        Ensure               = "Present"
-        Name                 = "Sample"
-        State                = "Started"
+        Ensure = "Present"
+        Name   = "Sample"
+        State  = "Started"
     }
 }
 
@@ -51,16 +51,16 @@ Configuration WebSite
     Import-DscResource -ModuleName xWebAdministration
     xWebSite WebSiteDSCServer
     {
-        Ensure               = "Present"
-        Name                 = $name
-        State                = "Started"
-        BindingInfo          = MSFT_xWebBindingInformation `
-                                    {
-                                        Protocol              = "HTTP"
-                                        Port                  = 7070 
-                                    }
-        PhysicalPath         = "C:\inetpub\Sample"
-        ApplicationPool      = "Sample"
+        Ensure          = "Present"
+        Name            = $name
+        State           = "Started"
+        BindingInfo     = MSFT_xWebBindingInformation `
+                               {
+                                   Protocol = "HTTP"
+                                   Port     = 7070 
+                               }
+        PhysicalPath    = "C:\inetpub\Sample"
+        ApplicationPool = "Sample"
     }
 }
 
@@ -89,7 +89,7 @@ Configuration CombineWebServer
 }
 
 $param = @{
-    ConfigurationData = c:\DSCSample\PowerShellSessionVol3\Configuration\ConfigurationData\ConfigurationData.ps1
+    ConfigurationData = .\ConfigurationData\ConfigurationData.ps1
     outputPath = "C:\CombineWebServer"
 }
 CombineWebServer @param
@@ -117,14 +117,9 @@ $cimSession = New-CimSession -ComputerName $nodename
 Get-DscLocalConfigurationManager -CimSession $cimSession
 
 # Run Immediately
-valea $nodename {Invoke-CimMethod -Namespace root/Microsoft/Windows/DesiredStateConfiguration -Cl MSFT_DSCLocalConfigurationManager -Method PerformRequiredConfigurationChecks -Arguments @{Flags = [System.UInt32]1}}
+Invoke-CimMethod -ComputerName $nodename -Namespace root/Microsoft/Windows/DesiredStateConfiguration -Cl MSFT_DSCLocalConfigurationManager -Method PerformRequiredConfigurationChecks -Arguments @{Flags = [System.UInt32]1}
+# you can use valentia https://github.com/guitarrapc/valentia for asynchronous invokation
+# valea $nodename {Invoke-CimMethod -Namespace root/Microsoft/Windows/DesiredStateConfiguration -Cl MSFT_DSCLocalConfigurationManager -Method PerformRequiredConfigurationChecks -Arguments @{Flags = [System.UInt32]1}}
 
 # Show current Configuration
 Get-DscConfiguration -CimSession $cimSession
-
-# You must copy xDSCDiagnostic to Node Module Path
-# Show DSC log
-valea $nodename {(Get-xDscOperation -Newest 1).AllEvents}
-
-# Trace DSC Log
-valea $nodename {Trace-xDscOperation -seq 1}

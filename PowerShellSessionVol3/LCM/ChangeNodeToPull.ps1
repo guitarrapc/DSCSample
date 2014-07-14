@@ -16,7 +16,7 @@
             ConfigurationMode              = "ApplyAndAutoCorrect"
             DownloadManagerName            = "WebDownloadManager"
             DownloadManagerCustomData      = @{
-                ServerUrl                    = "http://10.0.2.20:8080/PSDSCPullServer/PSDSCPullServer.svc"
+                ServerUrl                    = "http://{0}:8080/PSDSCPullServer/PSDSCPullServer.svc" -f ($AllNodes.Where{$_.Role -eq "DSCServer"}.NodeName)
                 AllowUnsecureConnection      = "true"}
             RefreshMode                    = "Pull"
             RebootNodeIfNeeded             = $true
@@ -29,8 +29,8 @@
 
 # Create mof
 $param = @{
-    guid = cat c:\DSCSample\PowerShellSessionVol3\guid\guid.txt
-    ConfigurationData = . "c:\DSCSample\PowerShellSessionVol3\Configuration\ConfigurationData\ConfigurationData.ps1"
+    guid = cat ..\guid\guid.txt
+    ConfigurationData = . "..\Configuration\ConfigurationData\ConfigurationData.ps1"
     OutputPath = "C:\ChangeNodeToPull"
 }
 ChangeNodeToPull @param
@@ -39,5 +39,5 @@ ChangeNodeToPull @param
 Set-DscLocalConfigurationManager -Path $param.outputPath -Verbose 
 
 # Check LCM
-$CimSession = New-CimSession -ComputerName 10.0.2.11
+$CimSession = New-CimSession -ComputerName $param.ConfigurationData.AllNodes.Where{$_.Role -eq "pull"}.NodeName
 Get-DscLocalConfigurationManager -CimSession $CimSession 

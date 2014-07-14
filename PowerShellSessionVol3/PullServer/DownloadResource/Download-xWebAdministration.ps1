@@ -62,6 +62,13 @@
         Ensure          = "Present"
     }
 
+    File PullModuleDirectory
+    {
+        DestinationPath = $PullModulePath
+        Type            = "Directory"
+        Ensure          = "Present"
+    }
+
     Script ModuleCheckSum
     {
         SetScript       = {New-DSCCheckSum (Join-Path $using:PullModulePath (Split-Path $using:OutFile -Leaf))}

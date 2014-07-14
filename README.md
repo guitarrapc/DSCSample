@@ -22,6 +22,50 @@ PowerShellSessionVol3
 This session is for PowerShell users to introduce PowerShell DSC Pull mode.
 There are several Demo to understand how DSC Pull is working.
 
+# How to use
+
+### git pull and edit node information
+
+1. Create 2 instances. 1 is for DSC PULL Server, the other is Pull Node.
+2. Clone repogitory into any path of Pull Server.
+3. Edit ConfigurationData by run ```DSCSample\PowerShellSessionVol3\Edit-ConfigurationData.ps1``` as PowerShell. You may find IPAddress is assign to role, change it as you like.
+4. After step complete, close ISE.
+ 
+### Create Pull server
+ 
+1. Open ISE and Run  ```DSCSample\PowerShellSessionVol3\PullServer\DownloadResource``` and it will install PSDSCPullServer into your host.
+2. Open IE and try ```http://127.0.0.1:8080/PSDSCPullServer/PSDSCPullServer.svc```. If XML then installation is success. 
+3. After step complete, close ISE.
+
+### Create Pull Node
+
+1. Open ISE and Run ```DSCSample\PowerShellSessionVol3\LCM\ChangeNodeToPull.ps1```. to change your node from PUSH to PULL.
+2. If Get-DSCLocalConfigurationManager > RefreshMode show as Pull, LCM change is success.
+3. After step complete, close ISE.
+ 
+### try Configuration
+
+1. Open ISE and Run ```DSCSample\PowerShellSessionVol3\Configuration\CombineWebServer.ps1```. This will immediately execute node to retrieve mof from PULL Server.
+2. This script runs ```Get-DSCConfiguration```. If this shows as File is present, then configuration is success. 
+3. After step complete, close ISE.
+
+### try Nested Configuration
+
+1. DSC Also allows you to nest your configuration. Open ISE and Run ```DSCSample\PowerShellSessionVol3\PullServer\DownloadResource\Download-xWebAdministration.ps1```. This download resource and set to module foler.
+2. After step complete, close ISE.
+3. Open ISE and Run ```DSCSample\PowerShellSessionVol3\Configuration\CombineWebServer.ps1```.
+4. If node Firewall is open, then ```http://NODEIP:7070/``` will show you iisstart.htm 
+
+### DIagnostics
+
+1. If you use ```DSCSample\PowerShellSessionVol3\PullServer\DownloadResource\Download-xDscDiagnostics.ps1``` then you can Diagnostic DSC operations.
+2. install module inside PULL Server and Node. Run ```DSCSample\PowerShellSessionVol3\Configuration\CheckDSCoperations.ps1```. Valentia will help you invoke without thinking Credential.
+
+That's all. Try DSC Pull and have a fun!
+
+# DSC functionality Detail for Beginner
+----------
+
 ## LCM
 
 You may understand what LCM is doing. This is base understanding of DSC and must understand at first.

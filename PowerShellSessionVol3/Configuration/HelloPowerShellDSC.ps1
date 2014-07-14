@@ -34,3 +34,12 @@ Copy-Item -Path $source -Destination $dest
 
 # コピーした .mofファイルのchecksumファイルを生成する。
 New-DSCCheckSum $dest -Verbose -Force
+
+# Run Immediately
+$cimSession = New-CimSession -ComputerName $nodename
+Invoke-CimMethod -ComputerName $nodename -Namespace root/Microsoft/Windows/DesiredStateConfiguration -Cl MSFT_DSCLocalConfigurationManager -Method PerformRequiredConfigurationChecks -Arguments @{Flags = [System.UInt32]1}
+# you can use valentia https://github.com/guitarrapc/valentia for asynchronous invokation
+# valea $nodename {Invoke-CimMethod -Namespace root/Microsoft/Windows/DesiredStateConfiguration -Cl MSFT_DSCLocalConfigurationManager -Method PerformRequiredConfigurationChecks -Arguments @{Flags = [System.UInt32]1}}
+
+# Show current Configuration
+Get-DscConfiguration -CimSession $cimSession
