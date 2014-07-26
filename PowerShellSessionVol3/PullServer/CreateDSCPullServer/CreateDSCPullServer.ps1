@@ -16,6 +16,14 @@
             Ensure                = "Present"
         }
 
+        WindowsFeature IISSecurity
+        {
+            Name    = "Web-Security"
+            Ensure  = "Present"
+            LogPath = "C:\Logs\DSC\WindowsFeature\Web-Security.txt"
+            IncludeAllSubFeature = $true
+        }
+
         WindowsFeature IISMgmt
         {
             Name                  = "Web-Mgmt-Tools"
