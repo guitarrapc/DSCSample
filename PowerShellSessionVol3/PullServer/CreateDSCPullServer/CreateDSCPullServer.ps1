@@ -20,7 +20,6 @@
         {
             Name    = "Web-Security"
             Ensure  = "Present"
-            LogPath = "C:\Logs\DSC\WindowsFeature\Web-Security.txt"
             IncludeAllSubFeature = $true
         }
 
