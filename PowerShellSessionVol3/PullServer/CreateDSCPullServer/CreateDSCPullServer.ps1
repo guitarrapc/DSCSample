@@ -6,8 +6,8 @@
     {
         WindowsFeature DSCService
         {
-            Name   = "DSC-Service"
-            Ensure = "Present"
+            Name                  = "DSC-Service"
+            Ensure                = "Present"
         }
 
         WindowsFeature IIS
@@ -18,9 +18,9 @@
 
         WindowsFeature IISSecurity
         {
-            Name    = "Web-Security"
-            Ensure  = "Present"
-            IncludeAllSubFeature = $true
+            Name                  = "Web-Security"
+            Ensure                = "Present"
+            IncludeAllSubFeature  = $true
         }
 
         WindowsFeature IISMgmt
