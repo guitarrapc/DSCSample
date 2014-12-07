@@ -1,5 +1,4 @@
-﻿# TODO: NTP Tuning をしちゃう
-configuration ConfigureNTP
+﻿configuration ConfigureNTP
 {
     param
     (

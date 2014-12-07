@@ -1,6 +1,7 @@
 ﻿Script Disable6to4
 {
-    SetScript  = {Set-Net6to4Configuration -State "Disabled"}
+    # can't use positional parameter
+    SetScript  = {Set-Net6to4Configuration "Disabled"}
     TestScript = {(Get-Net6to4Configuration).State -eq "Disabled"}
     GetScript  = {return @{
             TestScript = $TestScript
