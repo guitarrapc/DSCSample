@@ -7,7 +7,8 @@
         [string]$NTPServer = "ntp.nict.jp",
         
         # Secondary は定期同期なし + fallback専用
-        [parameter(Mandatory = 0, Position = 1)]        
+        [parameter(Mandatory = 0, Position = 1)]
+        [validateLength(1, 10)]
         [string[]]$FailOverNTPServer = ("s2csntp.miz.nao.ac.jp", "ntp.jst.mfeed.ad.jp")
     )
 
@@ -169,33 +170,18 @@
         Ensure = "Present"
     }
 
-    # NTP Server List
-    Registry NTPServerList1
+    # Set NTP Server list
+    for ($i = 0, $i -lt $ntpservers.Count; $i++)
     {
-        Key = "$NTPListPath"
-        ValueName = "1"
-        ValueType = "String"
-        ValueData = $ntpservers[0]
-        Ensure = "Present"
-    }
-
-    # NTP Server List
-    Registry NTPServerList2
-    {
-        Key = "$NTPListPath"
-        ValueName = "2"
-        ValueType = "String"
-        ValueData = $ntpservers[1]
-        Ensure = "Present"
-    }
-
-    # NTP Server List
-    Registry NTPServerList3
-    {
-        Key = "$NTPListPath"
-        ValueName = "3"
-        ValueType = "String"
-        ValueData = $ntpservers[2]
-        Ensure = "Present"
+        $valueName = $i + 1
+        # NTP Server List
+        Registry NTPServerList1
+        {
+            Key = "$NTPListPath"
+            ValueName = $valueName
+            ValueType = "String"
+            ValueData = $ntpservers[$i]
+            Ensure = "Present"
+        }
     }
 }
