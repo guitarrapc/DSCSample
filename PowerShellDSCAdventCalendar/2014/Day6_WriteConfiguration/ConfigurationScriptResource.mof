@@ -1,0 +1,11 @@
+﻿instance of MSFT_ScriptResource as $MSFT_ScriptResource4ref
+{
+ResourceID = "[Script]Disable6to4::[OSTuning]OSTuning";
+ GetScript = "return @{\n                TestScript = $TestScript\n                SetScript  = $SetScript\n                GetScript  = $GetScript\n                Result     = $Result\n            }\n        ";
+ TestScript = "(Get-Net6to4Configuration).State -eq \"Disabled\"";
+ SourceInfo = "C:\\Users\\Administrator\\Documents\\WindowsPowerShell\\Modules\\DSCModule\\DSC\\Configuration\\Node\\Common\\OSTuning.ps1::59::5::Script";
+ SetScript = "Set-Net6to4Configuration -State Disabled";
+ ModuleName = "PSDesiredStateConfiguration";
+ ModuleVersion = "1.0";
+
+};
