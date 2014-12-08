@@ -1,0 +1,1 @@
+﻿Get-Command -CommandType Configuration | ft -AutoSize
