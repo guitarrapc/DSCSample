@@ -51,7 +51,7 @@
 } 
 
 $param = @{
-    DownloadPath    = "http://gallery.technet.microsoft.com/xPSDesiredStateConfiguratio-417dc71d/file/116404/1/xPSDesiredStateConfiguration-3.0.0.1.zip"
+    DownloadPath    = "http://gallery.technet.microsoft.com/xPSDesiredStateConfiguratio-417dc71d/file/116404/1/xPSDesiredStateConfiguration-3.0.3.4.zip"
     OutFile         = "C:\Tools\xPSDesiredStateConfiguration_3.0.zip"
     SourcePath      = "C:\Tools\xPSDesiredStateConfiguration"
     OutPutPath      = "c:\DownloadxPSDesiredStateConfiguration"
